@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  encoding: unicode
+  username: dezder
+
+development:
+  <<: *default
+  database: cities_dev
+
+test:
+  <<: *default
+  database: cities_test
+
+production:
+  <<: *default
+  database: cities
