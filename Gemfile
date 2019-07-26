@@ -7,6 +7,7 @@ gem 'rails', '~> 5.2.3'
 
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
+gem 'geocoder'
 gem 'jsonapi-rails'
 gem 'jwt'
 gem 'pg'
