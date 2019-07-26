@@ -24,6 +24,9 @@
 /storage/*
 !/storage/.keep
 
+# Ignore swagger generated files
+/swagger
+
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.

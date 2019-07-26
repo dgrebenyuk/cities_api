@@ -12,11 +12,24 @@ gem 'jsonapi-rails'
 gem 'jwt'
 gem 'pg'
 gem 'puma', '~> 3.11'
+gem 'rswag-api'
+gem 'rswag-ui'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'rspec-rails'
+  gem 'rswag-specs'
+end
+
+group :development, :test do
+  gem 'pry'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

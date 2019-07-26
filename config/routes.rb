@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  mount Rswag::Api::Engine => '/api-docs'
+  mount Rswag::Ui::Engine => '/api-docs'
+
   # Move devise from namespace to prevent adding prefix to helpers
   scope '/api/v1', defaults: {format: :json} do
     devise_for :users, only: :registrations

@@ -8,8 +8,11 @@ class Api::V1::AuthenticationController < ApplicationController
     if user&.valid_password? user_params[:password]
       render json: { token: JsonWebToken.encode(sub: user.id) }
     else
-      render json: { errors: ['Invalid email or password'] }
+      render json: { errors: ['Invalid email or password'] }, status: :unauthorized
     end
+
+  rescue ActionController::ParameterMissing => e
+    render json: { errors: "Missing #{e.message[/:\s\K.*/]} parameter" }, status: :unprocessable_entity
   end
 
   private

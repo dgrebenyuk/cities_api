@@ -8,6 +8,6 @@ class City < ApplicationRecord
   scope :list, -> { order('created_at') }
   scope :featured, -> do
     left_joins(:favourites).group(:id)
-      .order('COUNT(favourites.id) DESC, cities.created_at')
+      .order(Arel.sql('COUNT(favourites.id) DESC, cities.created_at'))
   end
 end
