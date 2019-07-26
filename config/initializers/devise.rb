@@ -267,7 +267,7 @@ Devise.setup do |config|
   #
   config.warden do |manager|
     manager.strategies.add :jwt, Devise::Strategies::JWT
-    manager.default_strategies(scope: :user).unshift :jwt
+    manager.default_strategies(scope: :api_v1_user).unshift :jwt
   end
 
   # ==> Mountable engine configurations
@@ -309,8 +309,10 @@ module Devise
         token = request.headers.fetch('Authorization', '').split(' ').last
         payload = JsonWebToken.decode(token)
         success! User.find(payload['sub'])
-      rescue
-        fail!
+      rescue ::JWT::ExpiredSignature
+        fail! 'Auth token has expired'
+      rescue ::JWT::DecodeError
+        fail! 'Auth token is invalid'
       end
     end
   end

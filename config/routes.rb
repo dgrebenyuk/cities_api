@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       devise_for :users, only: :registrations
       post :auth, to: 'authentication#create'
       resources :cities
+      resources :favourites, only: [:index, :create]
+      delete 'favourite/:city_id', to: 'favourites#destroy'
     end
   end
 end
