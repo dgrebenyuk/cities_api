@@ -36,9 +36,15 @@ describe 'Favourites', type: :request do
       parameter name: :favourite, in: :body, schema: {
         type: :object,
         properties: {
-          city_id: { type: :integer },
+          favourite: {
+            type: :object,
+            properties: {
+              city_id: { type: :integer },
+            },
+            required: ['city_id']
+          }
         },
-        required: ['city_id']
+        required: ['favourite']
       }
 
       response '200', 'add city to user favourites' do

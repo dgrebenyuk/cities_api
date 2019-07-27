@@ -16,10 +16,11 @@ describe 'Authentication', type: :request do
             properties: {
               email: { type: :string },
               password: { type: :string }
-            }
+            },
+            required: ['email', 'password']
           }
         },
-        required: true
+        required: ['user']
       }
 
       response '200', 'user authentificated' do

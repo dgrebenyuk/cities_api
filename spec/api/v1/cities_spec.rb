@@ -29,11 +29,17 @@ describe 'Cities', type: :request do
       parameter name: :city, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          description: { type: :string },
-          population: { type: :integer }
+          city: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              description: { type: :string },
+              population: { type: :integer }
+            },
+            required: ['name', 'description', 'population']
+          }
         },
-        required: ['name', 'description', 'population']
+        required: ['city']
       }
 
       response '200', 'city created' do
