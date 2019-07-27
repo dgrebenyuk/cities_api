@@ -37,13 +37,22 @@ describe 'Cities', type: :request do
       }
 
       response '200', 'city created' do
+        before { FactoryBot.create :user }
         let(:Authorization) do
-          FactoryBot.create :user
           "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
         end
         let(:city) do
           { city: { name: 'London', description: 'Test city', population: 8_000_000 } }
         end
+        run_test!
+      end
+
+      response '400', 'missing required parameters' do
+        before { FactoryBot.create :user }
+        let(:Authorization) do
+          "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
+        end
+        let(:city) { {} }
         run_test!
       end
 
@@ -52,15 +61,6 @@ describe 'Cities', type: :request do
         let(:city) do
           { city: { name: 'London', description: 'Test city', population: 8_000_000 } }
         end
-        run_test!
-      end
-
-      response '422', 'missing required parameters' do
-        let(:Authorization) do
-          FactoryBot.create :user
-          "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
-        end
-        let(:city) { {} }
         run_test!
       end
     end

@@ -11,8 +11,8 @@ describe 'Favourites', type: :request do
         description: 'Authorization token'
 
       response '200', 'show favourite cities' do
+        before { FactoryBot.create :user }
         let(:Authorization) do
-          FactoryBot.create :user
           "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
         end
         run_test!
@@ -42,14 +42,23 @@ describe 'Favourites', type: :request do
       }
 
       response '200', 'add city to user favourites' do
+        before { FactoryBot.create :user }
         let(:Authorization) do
-          FactoryBot.create :user
           "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
         end
         let(:favourite) do
           FactoryBot.create :city
           { favourite: { city_id: City.maximum(:id) } }
         end
+        run_test!
+      end
+
+      response '400', 'missing required parameters' do
+        before { FactoryBot.create :user }
+        let(:Authorization) do
+          "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
+        end
+        let(:favourite) { {} }
         run_test!
       end
 
@@ -60,8 +69,8 @@ describe 'Favourites', type: :request do
       end
 
       response '422', 'wrong city id' do
+        before { FactoryBot.create :user }
         let(:Authorization) do
-          FactoryBot.create :user
           "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
         end
         let(:favourite) { { favourite: { city_id: 1 } } }
@@ -84,20 +93,22 @@ describe 'Favourites', type: :request do
         require: true,
         description: 'ID of city which should be removed from favourites list'
 
-      response '200', 'add city to user favourites' do
+      response '200', 'remove city from user favourites' do
+        before do
+          city = FactoryBot.create(:city)
+          user = FactoryBot.create :user
+          user.cities << city
+        end
         let(:Authorization) do
-          FactoryBot.create :user
           "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
         end
-        let(:city_id) do
-          FactoryBot.create(:city).id
-        end
+        let(:city_id) { City.maximum(:id) }
         run_test!
       end
 
       response '422', 'wrong city id' do
+        before { FactoryBot.create :user }
         let(:Authorization) do
-          FactoryBot.create :user
           "Basic #{JsonWebToken.encode(sub: User.maximum(:id))}"
         end
         let(:city_id) { 1 }

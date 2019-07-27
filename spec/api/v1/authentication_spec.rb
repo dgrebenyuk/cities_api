@@ -23,10 +23,17 @@ describe 'Authentication', type: :request do
       }
 
       response '200', 'user authentificated' do
-        let(:user) do
+        before do
           User.create email: 'johndoe@example.com', password: 'password1'
+        end
+        let(:user) do
           { user: { email: 'johndoe@example.com', password: 'password1' } }
         end
+        run_test!
+      end
+
+      response '400', 'missing required parameter' do
+        let(:user) { { email: 'johndoe@example.com' } }
         run_test!
       end
 
@@ -34,11 +41,6 @@ describe 'Authentication', type: :request do
         let(:user) do
           { user: { email: 'johndoe@example.com', password: 'password1' } }
         end
-        run_test!
-      end
-
-      response '422', 'missing required parameter' do
-        let(:user) { { email: 'johndoe@example.com' } }
         run_test!
       end
     end

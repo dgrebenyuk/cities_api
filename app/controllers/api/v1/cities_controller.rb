@@ -18,7 +18,7 @@ class Api::V1::CitiesController < ApplicationController
     end
 
   rescue ActionController::ParameterMissing => e
-    render json: { errors: "Missing #{e.message[/:\s\K.*/]} parameter" }, status: :unprocessable_entity
+    render json: { errors: [I18n.t('errors.missing_param', name: e.message[/:\s\K.*/])] }, status: :bad_request
   end
 
   private
