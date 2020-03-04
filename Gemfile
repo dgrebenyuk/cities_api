@@ -11,7 +11,7 @@ gem 'geocoder'
 gem 'jsonapi-rails'
 gem 'jwt'
 gem 'pg'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 gem 'rswag-api'
 gem 'rswag-ui'
 
